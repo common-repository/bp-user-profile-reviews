@@ -1,0 +1,932 @@
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Global
+# Widgets
+# Review Tab
+# Edit Review Model
+# Pagination
+# Success and Error Message
+# Square Rating
+# Square Half Rating Box
+# Themes Specific
+--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+# Global
+--------------------------------------------------------------*/
+
+.stars {
+    display: inline-block;
+}
+
+[class*="bupr-col-"] {
+    float: left;
+    padding: 10px 0;
+}
+
+.bupr-col-1 {
+    width: 8.33%;
+}
+
+.bupr-col-2 {
+    width: 16.66%;
+}
+
+.bupr-col-3 {
+    width: 25%;
+}
+
+.bupr-col-4 {
+    width: 33.33%;
+}
+
+.bupr-col-5 {
+    width: 41.66%;
+}
+
+.bupr-col-6 {
+    width: 50%;
+}
+
+.bupr-col-7 {
+    width: 58.33%;
+}
+
+.bupr-col-8 {
+    width: 66.66%;
+}
+
+.bupr-col-9 {
+    width: 75%;
+}
+
+.bupr-col-10 {
+    width: 83.33%;
+}
+
+.bupr-col-11 {
+    width: 91.66%;
+}
+
+.bupr-col-12 {
+    width: 100%;
+}
+
+.bupr-row {
+    clear: both;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px 0;
+    display: block !important;
+}
+
+.bupr-row:first-child {
+    padding-top: 0;
+}
+
+.bupr-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.bp-nouveau .bupr-row {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 0;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.bupr-review-full-description {
+    display: none;
+    padding-top: 20px;
+}
+
+.bupr-criteria-label {
+    word-break: break-word;
+}
+
+.bupr-criteria-label span {
+    display: inline;
+    width: 50%;
+    height: 40px;
+}
+
+@media(max-width: 767px) {
+    [class*="bupr-col-"] {
+        width: 100%;
+    }
+
+    .bupr-criteria-label span {
+        display: inline;
+        width: 100%;
+        clear: left;
+    }
+}
+
+.sel {
+    color: red;
+}
+
+.bupr-accept-button,
+.bupr-deny-button {
+    float: left;
+    margin-right: 5px;
+}
+
+.bupr-pagination {
+    border-bottom: 0;
+    clear: both;
+}
+
+.single-headers #bupr-add-review-btn {
+    list-style: none;
+    margin: 10px 10px 0 0;
+}
+
+.single-headers .bb-enable-cover-img .member-header-actions>#bupr-add-review-btn {
+    margin: 5px 10px 10px 0;
+}
+
+/*--------------------------------------------------------------
+# Widgets
+--------------------------------------------------------------*/
+
+.bupr_members_review_setting ul.bupr-member-main li.bupr-members,
+.widget ul#bp-member-rating li {
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.1);*/
+    height: auto;
+    width: 100%;
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: .5em 0;
+}
+
+ul.bupr-member-main {
+    margin: 0;
+    list-style: none;
+    padding: 0px;
+}
+
+.bupr_members_review_setting ul.bupr-member-main li:first-child,
+.widget ul#bp-member-rating li:first-child {
+    padding-top: 0;
+}
+
+.bupr_members_review_setting ul.bupr-member-main li:last-child,
+.widget ul#bp-member-rating li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.widget ul#bp-member-rating .item-avatar,
+ul.bupr-member-main li.bupr-members img.avatar {
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+
+.widget ul#bp-member-rating .item,
+ul.bupr-member-main li.bupr-members .bupr-content-widget {
+    margin-left: 70px;
+}
+
+ul.bupr-member-main li.bupr-members.bupr-hide .bupr-content-widget {
+    margin-left: 0px;
+}
+
+ul.bupr-member-main li.bupr-members .bupr-meta {
+    display: block;
+    font-size: 90%;
+    line-height: normal;
+    margin-top: 5px;
+}
+
+.bupr-modal-msg {
+    margin: 50px 0px;
+    text-align: center;
+}
+
+
+/*--------------------------------------------------------------
+# Review Tab
+--------------------------------------------------------------*/
+
+.bupr-members-profiles {
+    text-align: center;
+    width: 80px;
+    float: left;
+    text-align: left;
+}
+
+.bupr-members-profiles img.avatar {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.bupr-members-profiles .reviewer h4 {
+    text-transform: capitalize;
+    margin: 10px 0 0;
+    font-size: 80%;
+}
+
+.bupr-members-content {
+    margin-left: 100px;
+}
+
+.bupr-members-content .review-subject h4 {
+    margin: 5px 0px !important;
+}
+
+
+/*--------------------------------------------------------------
+# Edit Review Model
+--------------------------------------------------------------*/
+
+.bupr-review-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition: visibility 0s linear 0.25s, opacity 0.25s 0s, -webkit-transform 0.25s;
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    z-index: 9999999;
+}
+
+.bupr-review-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    max-width: 30rem;
+    width: -webkit-calc(100% - 30px);
+    width: calc(100% - 30px);
+    margin: auto;
+    border-radius: 8px !important;
+}
+
+.bupr-review-modal-close-button {
+    float: right;
+    width: 1.5rem;
+    padding-bottom: 10px;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.bupr-review-modal-close-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.bupr-review-modal-close-button svg:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.bupr-show-modal {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    transform: scale(1.0);
+    -webkit-transition: visibility 0s linear 0s, opacity 0.25s 0s, -webkit-transform 0.25s;
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.bupr-edit-review-button-wrapper {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+button.bupr-edit-review-button {
+    padding: 10px !important;
+    border-radius: 4px !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.bupr-review-modal-content button#bupr_upodate_review {
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    margin-top: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+
+/*--------------------------------------------------------------
+# Pagination
+--------------------------------------------------------------*/
+
+.bupr-posts-pagination {
+    margin: 15px 0;
+    text-align: right;
+}
+
+.bupr-posts-pagination span {
+    border: 1px solid hsl(0, 0%, 50%);
+    border-radius: 5px;
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+.bupr-posts-pagination .page-numbers {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    margin: 0px 0px;
+    padding: 0;
+    background: #fff;
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+    text-align: center;
+    line-height: 32px;
+    font-size: 80%;
+    font-weight: bold;
+}
+
+.bupr-posts-pagination .next.page-numbers,
+.bupr-posts-pagination .prev.page-numbers {
+    width: auto;
+    padding: 0 10px;
+}
+
+.bupr-single-reivew {
+    margin-top: 20px;
+}
+
+.no-count {
+    margin-left: 3px;
+}
+
+#bupr_success_review p {
+    display: none;
+}
+
+.bupr-save-reivew-spinner {
+    display: none;
+    float: left;
+    margin-left: 10px;
+    margin-top: 8px
+}
+
+.bupr-error-fields {
+    display: none;
+    font-size: 12px;
+    color: red;
+}
+
+
+/*--------------------------------------------------------------
+# Success and Error Message
+--------------------------------------------------------------*/
+
+.bupr-success {
+    background-color: hsl(103, 44%, 89%);
+    border-color: hsl(92, 44%, 85%);
+    border-radius: 5px;
+    color: hsl(121, 33%, 35%);
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.bupr-error {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: hsl(0, 43%, 91%);
+    border-color: hsl(350, 44%, 86%);
+    color: hsl(1, 44%, 46%);
+    margin-top: 10px;
+}
+
+
+/*--------------------------------------------------------------
+# Square Rating
+--------------------------------------------------------------*/
+
+.br-theme-bars-square .bupr-rating-widget {
+    height: 15px;
+    white-space: nowrap;
+}
+
+.br-theme-bars-square .bupr-rating-widget a {
+    display: block;
+    width: 28px;
+    height: 28px;
+    float: left;
+    border: 2px solid #bbcefb;
+    background-color: white;
+    margin: 2px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 2;
+    text-align: center;
+    color: #bbcefb;
+    font-weight: 600;
+}
+
+.br-theme-bars-square .bupr-rating-widget a.bupr-square-selected {
+    border: 2px solid #4278F5;
+    color: #4278F5;
+}
+
+.br-theme-bars-square .br-readonly a {
+    cursor: default;
+}
+
+.br-theme-bars-square .br-readonly a.bupr-square-selected {
+    border: 2px solid #729bf8;
+    color: #729bf8;
+}
+
+@media print {
+    .br-theme-bars-square .bupr-rating-widget a {
+        border: 2px solid #b3b3b3;
+        color: #b3b3b3;
+    }
+}
+
+
+/*--------------------------------------------------------------
+# Square Half Rating Box
+--------------------------------------------------------------*/
+
+.br-theme-bars-square .br-readonly a.bupr-square-half {
+    border-top: 2px solid #729bf8;
+    color: #729bf8;
+    border-left: 2px solid #729bf8;
+    color: #729bf8;
+}
+
+.br-theme-bars-square .bupr-rating-widget a.bupr-square-half {
+    border-top: 2px solid #4278F5;
+    color: #4278F5;
+    border-left: 2px solid #4278F5;
+    color: #4278F5;
+}
+
+.item-header-content .activity {
+    margin-bottom: 10px;
+}
+
+.modal-header h2 {
+    margin: 0px !important;
+}
+
+.bupr-hide-subject {
+    display: none;
+}
+
+.success_review_msg {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    font-weight: 700;
+    margin-top: 3px;
+    text-decoration: none;
+    margin-bottom: 1.75em;
+    border-radius: 5px;
+}
+
+.success_review_msg p {
+    padding: 10px 15px;
+    margin: 0;
+}
+
+@media(min-width: 768px) and (max-width: 1068px) {
+    #bupr-add-review-modal .modal-content {
+        min-width: 380px;
+    }
+}
+
+#bupr-add-review-modal .bupr-criteria-label span {
+    height: 35px;
+}
+
+.bupr-star-rate {
+    margin-right: 0px;
+}
+
+.bupr-bp-member-review-no-popup-add-block #review_desc,
+#review_desc {
+    width: 100%;
+    padding: 10px;
+}
+
+.bupr-bp-member-review-no-popup-add-block #bupr_save_review {
+    width: 100%;
+    margin: 0;
+    max-width: 160px;
+    height: auto !important;
+    float: left;
+}
+
+.bp-member-add-form:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.bp-member-add-form input[type="checkbox"]#bupr_anonymous_review {
+    vertical-align: middle;
+    margin: 0 5px 0 0;
+}
+
+.add_review_msg {
+    display: none;
+}
+
+.success_review_msg {
+    display: none;
+}
+
+#bupr-view-review-btn {
+    width: 100%;
+}
+
+
+/* Left-aligned review container for single member profile */
+.bupr-member-review-wrapper {
+    margin: 10px 0;
+    text-align: left;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* Align stars and text vertically */
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    /* Keep items left-aligned */
+}
+
+.bupr-member-review-stars {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    /* For the tooltip */
+}
+
+.bupr-member-tooltip::before {
+    content: attr(data-tooltip);
+    /* Get the tooltip content from the custom attribute */
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.bupr-member-tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bupr-member-rating-text {
+    font-size: 14px;
+    color: #555;
+    margin-left: 5px;
+}
+
+/* Disable alignment when legacy template is used, but exclude when body contains 'youzify' */
+body.bp-legacy:not([class*="youzify"]) .bupr-directory-review-parent-container {
+    display: block;
+    /* Disable flexbox alignment */
+}
+
+/* Parent container to center the review block */
+.bupr-directory-review-parent-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+/* Directory-specific styles */
+.bupr-directory-review-wrapper {
+    margin: 0;
+    text-align: left;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* Align stars and text vertically */
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    /* Keep items on a single line */
+}
+
+.bupr-directory-review-stars {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    /* For the tooltip */
+}
+
+.bupr-directory-tooltip::before {
+    content: attr(data-tooltip);
+    /* Get the tooltip content from the custom attribute */
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.bupr-directory-tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bupr-directory-rating-text {
+    font-size: 14px;
+    color: #555;
+    margin-left: 5px;
+}
+
+
+.kleo-masonry-item .member-review-stars {
+    text-align: center;
+}
+
+.widget.bupr_members_review_setting {
+    overflow: hidden;
+}
+
+.posted-on.list {
+    padding-top: 10px;
+}
+
+
+/*--------------------------------------------------------------
+# Themes Specific
+--------------------------------------------------------------*/
+
+.widget-area .widget.buddypress div.item-options#bp-member-rating-list-options a {
+    margin: 0;
+}
+
+.bp-nouveau .widget-area .widget.buddypress #bp-member-rating div.item {
+    padding: 0;
+}
+
+.bb-grid .widget.buddypress div.item-options#bp-member-rating-list-options a {
+    margin-right: 1.25rem;
+    margin-top: 10px;
+}
+
+.kleo-page .widget.buddypress #bp-member-rating div.item-avatar img.avatar {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    border-radius: 0;
+}
+
+.rating-sec {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.rating-num {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.rating-sec .posted-on.list {
+    padding: 0px;
+}
+
+.bupr-full-description {
+    word-break: break-all;
+}
+
+.description {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.description p {
+    margin: 0px;
+}
+li#bupr-add-review-btn a.add-review {
+    margin: 0;
+    display: inline-block;
+}
+
+/* Youzify Plugin Support */
+
+body[class*="youzify"] .youzify-head-content .bupr-member-review-wrapper {
+    justify-content: center;
+}
+
+body[class*="youzify"].reviews .youzify-page-main-content .youzify-main-column div#subnav.item-list-tabs{
+    margin: 0;
+}
+
+body[class*="youzify"].reviews .youzify-page-main-content .bupr-bp-member-reviews-block .bp-member-reviews,
+body[class*="youzify"].add-review .youzify-page-main-content .youzify-main-column .bupr-bp-member-review-no-popup-add-block{
+    padding: 30px;
+    border-top: 1px solid #eee;
+    background-color: var(--reign-site-sections-bg-color);
+    background-color: var(--yzfy-card-bg-color);
+    margin: 0;
+}
+
+body[class*="youzify"] .youzify-page-main-content #bupr-reiew-edit button.bupr-edit-review-button,
+body[class*="youzify"].add-review .youzify-page-main-content button#bupr_save_review {
+    color: #fff;x
+}
+
+body[class*="youzify"] .youzify-page-main-content .bupr-bp-member-review-no-popup-add-block #review_desc, #review_desc{
+    margin-top: 15px;
+}
+
+.youzify .bupr-save-reivew-spinner {
+    display: none;
+}
+
+.youzify .btn,
+.youzify .btn:hover {
+    color: inherit;
+}
+
+/* Adjust spacing for the Add Review button when Youzify is active */
+body[class*="youzify"] #bupr-add-review-btn .add-review.button {
+    padding: 12px 20px;
+    /* Adjust padding */
+    margin-top: 15px;
+    /* Adjust margin if needed */
+    display: inline-block;
+    text-align: center;
+    border-radius: 8px;
+    /* Optional: Add border radius for a rounded look */
+    background-color: var(--yzfy-scheme-color) !important;
+    color: var(--yzfy-scheme-text-color) !important;
+    /* Optional: Set a background color */
+    /* Optional: Set text color */
+}
+
+/* Optionally, adjust the button's hover state */
+body[class*="youzify"] #bupr-add-review-btn .add-review.button:hover {
+    background-color: #005177;
+    /* Darken the background on hover */
+}
+
+.olympus-theme .bgr-submit-review,
+.olympus-theme .bgr-submit-review:hover {
+    color: inherit;
+}
+
+body[class*="youzify"] .bupr-member-tooltip .bupr-member-rating-text {
+    color: var(--yzfy-scheme-text-color) !important;
+}
+
+@media only screen and (max-width: 480px) {
+    .bupr-members-profiles {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        gap: 10px;
+        float: none;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .bupr-members-profiles .reviewer h4,
+    .bupr-members-content {
+        margin: 0 !important;
+    }
+
+    .rating-num {
+        margin-left: 0;
+    }
+
+    .rating-star {
+        margin-right: 10px;
+    }
+    body[class*="youzify"] .youzify-page-main-content .bupr-criteria-label{
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .multi-review {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+    .bupr-member-review-wrapper{
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .multi-review {
+        display: inline-block;
+    }
+}
+
+/*--------------------------------------------------------------
+# BuddyBoss Theme Specific
+--------------------------------------------------------------*/
+
+.buddyboss-theme .members-directory-wrapper .members .member-review-stars {
+    text-align: center;
+}
+
+.buddyboss-theme .member-header-actions-wrap .member-header-actions.action {
+    display: flex;
+    gap: 10px;
+}
+
+.rating {
+    color: red;
+}
+
+#bupr-reiew-edit button.bupr-edit-review-button {
+    padding: 6px 15px !important;
+}
+
+.bp-member-add-form button#bupr_save_review {
+    display: inline-block;
+    max-width: 160px;
+    font-size: 16px;
+    font-weight: normal;
+}
